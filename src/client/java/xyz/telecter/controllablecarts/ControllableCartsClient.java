@@ -11,35 +11,41 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import xyz.telecter.controllablecarts.entity.ControllableMinecart;
 import xyz.telecter.controllablecarts.entity.ModEntityType;
+import xyz.telecter.controllablecarts.packet.MinecartDataPayload;
+import xyz.telecter.controllablecarts.packet.MinecartMovePayload;
 
 
 public class ControllableCartsClient implements ClientModInitializer {
 
 
     @Override
-	public void onInitializeClient() {
+    public void onInitializeClient() {
         EntityRenderers.register(ModEntityType.CONTROLLABLE_MINECART, ctx -> new MinecartRenderer(ctx, ModelLayers.MINECART));
-        ClientTickEvents.END_CLIENT_TICK.register(ControllableCartsClient::onEndClientTick);
+        ClientTickEvents.END_CLIENT_TICK.register(this::onEndClientTick);
         CartHud.register();
 
-        ClientPlayNetworking.registerGlobalReceiver(VehicleFuelPayload.ID, ((payload, context) -> {
+        ClientPlayNetworking.registerGlobalReceiver(MinecartDataPayload.ID, ((payload, context) -> {
             Entity entity = context.player().level().getEntity(payload.id());
             if (entity instanceof ControllableMinecart cart) {
                 cart.setFuel(payload.fuel());
+                cart.clientMaxSpeed = payload.maxSpeed();
+            } else {
+                ControllableCarts.LOGGER.info("Got bad entity from fuel update packet");
             }
         }));
-	}
 
-    public static void onEndClientTick(Minecraft client) {
+    }
+
+    public void onEndClientTick(Minecraft client) {
         if (client.player != null) {
             Entity vehicle = client.player.getVehicle();
             if (vehicle instanceof ControllableMinecart) {
                 Vec3 velocity = vehicle.getDeltaMovement();
-                Vec3 direction = client.player.getDirection().getUnitVec3();
+                Vec3 direction = client.player.getDirection().getUnitVec3().horizontal();
                 if (client.player.input.keyPresses.forward()) {
-                    ClientPlayNetworking.send(new VehicleMovePayload(direction));
+                    ClientPlayNetworking.send(new MinecartMovePayload(direction));
                 } else if (client.player.input.keyPresses.backward() && velocity.length() > 0) {
-                    ClientPlayNetworking.send(new VehicleMovePayload(Vec3.ZERO));
+                    ClientPlayNetworking.send(new MinecartMovePayload(Vec3.ZERO));
                 }
             }
         }

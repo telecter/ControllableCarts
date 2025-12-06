@@ -14,11 +14,11 @@ import net.minecraft.world.item.Items;
 import xyz.telecter.controllablecarts.entity.ControllableMinecart;
 
 public class CartHud {
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final Minecraft client = Minecraft.getInstance();
 
 
-    static int width = 250;
-    static int height = 30;
+    static final int width = 175;
+    static final int height = 30;
 
 
     public static void register() {
@@ -26,31 +26,28 @@ public class CartHud {
     }
 
     public static void render(GuiGraphics context, DeltaTracker tickCounter) {
-        if (mc.player == null) {
+        if (client.player == null) {
             return;
         }
-        Player player = mc.player;
-        int x = context.guiWidth()/2-width/2;
-        int y = context.guiHeight()-80;
+        Player player = client.player;
 
-        if (mc.player.getVehicle() instanceof ControllableMinecart cart) {
+        int x = context.guiWidth() / 2;
+        int y = context.guiHeight() - 70;
 
-            double deltaX = player.getX() - player.xOld;
-            double deltaZ = player.getZ() - player.zOld;
-            double speed = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2)) * 20;
-
-            int bps = Math.toIntExact(Math.round(speed));
-            Component speedText = Component.literal(String.valueOf(bps)).append(" blocks/second").withStyle(ChatFormatting.BOLD);
+        if (client.player.getVehicle() instanceof ControllableMinecart cart) {
+            int bps = Math.toIntExact(
+                    Math.round(
+                            Math.clamp(Utils.getEntitySpeed(player), 0, cart.clientMaxSpeed) * 20
+                    )
+            );
+            Component speedText = Component.literal(String.valueOf(bps)).append(" bl/s");
 
             int fuel = Math.round(cart.getFuel());
-
             Component fuelText = Component.literal(String.valueOf(fuel)).withStyle(fuel > 0 ? ChatFormatting.WHITE : ChatFormatting.RED);
 
-
-            context.fill(x, y, x+width, y+height, 0x40000000);
-            context.renderFakeItem(new ItemStack(Items.COAL), x+width-width/3, y+height/2-8);
-            context.drawString(mc.font, speedText, x+10, y+height/2-mc.font.lineHeight/2, 0xFFFFFFFF, false);
-            context.drawString(mc.font, fuelText, x+width-width/3+20, y+height/2-mc.font.lineHeight/2, 0xFFFFFFFF, false);
+            context.drawString(client.font, speedText, x + width / 2 - 75, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, false);
+            context.drawString(client.font, fuelText, x + width / 2 - 15, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, false);
+            context.renderFakeItem(new ItemStack(Items.COAL), x + width / 2 - 35, y + height / 2 - 8);
         }
     }
 }

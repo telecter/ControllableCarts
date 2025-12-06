@@ -13,6 +13,7 @@ import xyz.telecter.controllablecarts.ControllableCarts;
 public class ModEntityType {
     public static void initialize() {
     }
+
     public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
         ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ControllableCarts.MOD_ID, id);
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, location, builder.build(ResourceKey.create(Registries.ENTITY_TYPE, location)));

@@ -1,12 +1,17 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    "minecraft:minecart",
-    "minecraft:lever"
+  "pattern": [
+    "A",
+    "B",
+    "C"
   ],
+  "key": {
+    "A": "minecraft:lever",
+    "B": "minecraft:furnace",
+    "C": "minecraft:minecart"
+  },
   "result": {
-    "count": 1,
     "id": "controllablecarts:controllable_minecart"
   }
 }

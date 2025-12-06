@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -22,21 +23,25 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import xyz.telecter.controllablecarts.ModItems;
-import xyz.telecter.controllablecarts.VehicleFuelPayload;
+import xyz.telecter.controllablecarts.Utils;
+import xyz.telecter.controllablecarts.packet.MinecartDataPayload;
 
 public class ControllableMinecart extends Minecart {
 
     private static final float ACCEL = 0.025f;
-    private static final float DECEL_MULTIPLIER = 0.90f;
+    private static final float DECEL_FACTOR = 0.90f;
 
     private static final float FUEL_SPEND = 0.005f;
     private static final float MAX_FUEL = 1000;
 
     private float fuel;
 
+    public double clientMaxSpeed;
+
     public ControllableMinecart(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.fuel = 0;
+        this.clientMaxSpeed = 0.0;
     }
 
     private void accelerate(Vec3 direction) {
@@ -44,34 +49,36 @@ public class ControllableMinecart extends Minecart {
     }
 
     private void decelerate() {
-        setDeltaMovement(getDeltaMovement().scale(DECEL_MULTIPLIER));
+        setDeltaMovement(getDeltaMovement().scale(DECEL_FACTOR));
     }
 
     public void move(Vec3 direction) {
-        if (direction.equals(Vec3.ZERO)) {
-            decelerate();
-
-        } else {
-            if (this.fuel > 0) {
-                if (this.getDeltaMovement().length() > 0.25) {
-                    this.fuel -= FUEL_SPEND;
+        if (level() instanceof ServerLevel level) {
+            if (direction.equals(Vec3.ZERO)) {
+                decelerate();
+            } else {
+                double speed = Utils.getEntitySpeed(this);
+                if (fuel > 0 && speed <= getMaxSpeed(level)) {
+                    if (speed > 0.05) {
+                        fuel -= FUEL_SPEND;
+                    }
+                    if (getFirstPassenger() instanceof ServerPlayer player) {
+                        sendFuelUpdate(player);
+                    }
+                    accelerate(direction);
                 }
-                if (getFirstPassenger() instanceof ServerPlayer player) {
-                    sendFuelUpdate(player);
-                }
-                accelerate(direction);
             }
         }
+
     }
 
 
     @Override
     public @NotNull InteractionResult interact(Player player, InteractionHand interactionHand) {
         ItemStack item = player.getMainHandItem();
-        if (item.is(Items.COAL) || item.is(Items.COAL_BLOCK)) {
+        if (item.is(ItemTags.FURNACE_MINECART_FUEL) || item.is(Items.COAL_BLOCK)) {
             int amount = item.is(Items.COAL_BLOCK) ? 90 : 10;
-
-            if (fuel + amount > MAX_FUEL) {
+            if (Math.floor(fuel) + amount > MAX_FUEL) {
                 player.displayClientMessage(Component.translatable("entity.controllablecarts.controllable_minecart.full").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
@@ -94,7 +101,7 @@ public class ControllableMinecart extends Minecart {
     @Override
     protected void addAdditionalSaveData(ValueOutput valueOutput) {
         super.addAdditionalSaveData(valueOutput);
-        valueOutput.putFloat("Fuel", this.fuel);
+        valueOutput.putFloat("Fuel", fuel);
     }
 
 
@@ -116,7 +123,9 @@ public class ControllableMinecart extends Minecart {
     }
 
     public void sendFuelUpdate(ServerPlayer player) {
-        ServerPlayNetworking.send(player, new VehicleFuelPayload(getId(), this.fuel));
+        if (level() instanceof ServerLevel level) {
+            ServerPlayNetworking.send(player, new MinecartDataPayload(getId(), fuel, getMaxSpeed(level)));
+        }
     }
 
     @Override
@@ -131,7 +140,7 @@ public class ControllableMinecart extends Minecart {
 
     @Override
     public void kill(ServerLevel level) {
-        spawnAtLocation(level, new ItemStack(Items.COAL, (int)Math.floor(fuel / 10.0)));
+        spawnAtLocation(level, new ItemStack(Items.COAL, (int) Math.floor(fuel / 10.0)));
         super.kill(level);
     }
 
