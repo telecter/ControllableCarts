@@ -1,7 +1,10 @@
 package xyz.telecter.controllablecarts.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +19,6 @@ import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -36,12 +38,11 @@ public class ControllableMinecart extends Minecart {
 
     private float fuel;
 
-    public double clientMaxSpeed;
+    @Environment(EnvType.CLIENT)
+    public double maxSpeed;
 
     public ControllableMinecart(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.fuel = 0;
-        this.clientMaxSpeed = 0.0;
     }
 
     private void accelerate(Vec3 direction) {
@@ -66,6 +67,9 @@ public class ControllableMinecart extends Minecart {
                         sendFuelUpdate(player);
                     }
                     accelerate(direction);
+                    if (this.fuel > 0 && this.random.nextInt(4) == 0) {
+                        this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY() + 0.8, this.getZ(), (double)0.0F, (double)0.0F, (double)0.0F);
+                    }
                 }
             }
         }
@@ -77,16 +81,13 @@ public class ControllableMinecart extends Minecart {
     public @NotNull InteractionResult interact(Player player, InteractionHand interactionHand) {
         ItemStack item = player.getMainHandItem();
         if (item.is(ItemTags.FURNACE_MINECART_FUEL) || item.is(Items.COAL_BLOCK)) {
-            int amount = item.is(Items.COAL_BLOCK) ? 90 : 10;
+            int amount = item.is(Items.COAL_BLOCK) ? 9 : 1;
             if (Math.floor(fuel) + amount > MAX_FUEL) {
                 player.displayClientMessage(Component.translatable("entity.controllablecarts.controllable_minecart.full").withStyle(ChatFormatting.RED), true);
                 return InteractionResult.FAIL;
             }
-
             fuel += amount;
-            if (player.gameMode() != GameType.CREATIVE) {
-                item.consume(1, player);
-            }
+            item.consume(1, player);
             return InteractionResult.SUCCESS;
         }
         return super.interact(player, interactionHand);
@@ -140,7 +141,7 @@ public class ControllableMinecart extends Minecart {
 
     @Override
     public void kill(ServerLevel level) {
-        spawnAtLocation(level, new ItemStack(Items.COAL, (int) Math.floor(fuel / 10.0)));
+        spawnAtLocation(level, new ItemStack(Items.COAL, (int) Math.floor(fuel)));
         super.kill(level);
     }
 

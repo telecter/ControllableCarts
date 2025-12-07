@@ -28,7 +28,7 @@ public class ControllableCartsClient implements ClientModInitializer {
             Entity entity = context.player().level().getEntity(payload.id());
             if (entity instanceof ControllableMinecart cart) {
                 cart.setFuel(payload.fuel());
-                cart.clientMaxSpeed = payload.maxSpeed();
+                cart.maxSpeed = payload.maxSpeed();
             } else {
                 ControllableCarts.LOGGER.info("Got bad entity from fuel update packet");
             }

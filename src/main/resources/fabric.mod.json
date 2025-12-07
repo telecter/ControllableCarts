@@ -3,12 +3,12 @@
   "id": "controllablecarts",
   "version": "${version}",
   "name": "Controllable Carts",
-  "description": "Adds player controllable Minecarts",
+  "description": "Adds a new type of Minecart that is player-controllable.",
   "authors": [
     "telecter"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://modrinth.com/mod/controllablecarts",
     "sources": "https://github.com/telecter/ControllableCarts"
   },
   "license": "MIT",
@@ -27,8 +27,5 @@
     "minecraft": "~1.21.10",
     "java": ">=21",
     "fabric-api": "*"
-  },
-  "mixins": [
-    "controllablecarts.mixins.json"
-  ]
+  }
 }

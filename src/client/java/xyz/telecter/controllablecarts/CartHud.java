@@ -16,11 +16,6 @@ import xyz.telecter.controllablecarts.entity.ControllableMinecart;
 public class CartHud {
     private static final Minecraft client = Minecraft.getInstance();
 
-
-    static final int width = 175;
-    static final int height = 30;
-
-
     public static void register() {
         HudElementRegistry.attachElementAfter(VanillaHudElements.MISC_OVERLAYS, ResourceLocation.fromNamespaceAndPath(ControllableCarts.MOD_ID, "minecart_hud"), CartHud::render);
     }
@@ -31,13 +26,16 @@ public class CartHud {
         }
         Player player = client.player;
 
+        int width = 180;
+        int height = 30;
+
         int x = context.guiWidth() / 2;
         int y = context.guiHeight() - 70;
 
         if (client.player.getVehicle() instanceof ControllableMinecart cart) {
             int bps = Math.toIntExact(
                     Math.round(
-                            Math.clamp(Utils.getEntitySpeed(player), 0, cart.clientMaxSpeed) * 20
+                            Math.clamp(Utils.getEntitySpeed(player), 0, cart.maxSpeed) * 20
                     )
             );
             Component speedText = Component.literal(String.valueOf(bps)).append(" bl/s");
@@ -45,9 +43,9 @@ public class CartHud {
             int fuel = Math.round(cart.getFuel());
             Component fuelText = Component.literal(String.valueOf(fuel)).withStyle(fuel > 0 ? ChatFormatting.WHITE : ChatFormatting.RED);
 
-            context.drawString(client.font, speedText, x + width / 2 - 75, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, false);
-            context.drawString(client.font, fuelText, x + width / 2 - 15, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, false);
-            context.renderFakeItem(new ItemStack(Items.COAL), x + width / 2 - 35, y + height / 2 - 8);
+            context.drawString(client.font, speedText, x - width / 2, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
+            context.drawString(client.font, fuelText, x + width / 2 - 20, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
+            context.renderFakeItem(new ItemStack(Items.COAL), x + width / 2 - 40, y + height / 2 - 8);
         }
     }
 }
