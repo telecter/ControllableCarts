@@ -9,7 +9,8 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/controllablecarts",
-    "sources": "https://github.com/telecter/ControllableCarts"
+    "sources": "https://github.com/telecter/ControllableCarts",
+    "issues": "https://github.com/telecter/ControllableCarts/issues"
   },
   "license": "MIT",
   "icon": "assets/controllablecarts/icon.png",

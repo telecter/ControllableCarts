@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -34,7 +33,7 @@ public class ControllableMinecart extends Minecart {
     private static final float DECEL_FACTOR = 0.90f;
 
     private static final float FUEL_SPEND = 0.005f;
-    private static final float MAX_FUEL = 1000;
+    private static final float MAX_FUEL = 100;
 
     private float fuel;
 
@@ -67,9 +66,6 @@ public class ControllableMinecart extends Minecart {
                         sendFuelUpdate(player);
                     }
                     accelerate(direction);
-                    if (this.fuel > 0 && this.random.nextInt(4) == 0) {
-                        this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY() + 0.8, this.getZ(), (double)0.0F, (double)0.0F, (double)0.0F);
-                    }
                 }
             }
         }
