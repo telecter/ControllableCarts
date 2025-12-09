@@ -4,7 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -15,7 +15,7 @@ public class ModEntityType {
     }
 
     public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(ControllableCarts.MOD_ID, id);
+        Identifier location = Identifier.fromNamespaceAndPath(ControllableCarts.MOD_ID, id);
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, location, builder.build(ResourceKey.create(Registries.ENTITY_TYPE, location)));
     }
 

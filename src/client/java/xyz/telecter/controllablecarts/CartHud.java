@@ -7,7 +7,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,7 +17,7 @@ public class CartHud {
     private static final Minecraft client = Minecraft.getInstance();
 
     public static void register() {
-        HudElementRegistry.attachElementAfter(VanillaHudElements.MISC_OVERLAYS, ResourceLocation.fromNamespaceAndPath(ControllableCarts.MOD_ID, "minecart_hud"), CartHud::render);
+        HudElementRegistry.attachElementAfter(VanillaHudElements.MISC_OVERLAYS, Identifier.fromNamespaceAndPath(ControllableCarts.MOD_ID, "minecart_hud"), CartHud::render);
     }
 
     public static void render(GuiGraphics context, DeltaTracker tickCounter) {
