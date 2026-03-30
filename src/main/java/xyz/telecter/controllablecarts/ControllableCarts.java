@@ -25,8 +25,8 @@ public class ControllableCarts implements ModInitializer {
         ModEntityType.initialize();
         ModItems.initialize();
 
-        PayloadTypeRegistry.playC2S().register(MinecartMovePayload.ID, MinecartMovePayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(MinecartDataPayload.ID, MinecartDataPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(MinecartMovePayload.ID, MinecartMovePayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(MinecartDataPayload.ID, MinecartDataPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(MinecartMovePayload.ID, ((payload, context) -> {
             Entity vehicle = context.player().getVehicle();

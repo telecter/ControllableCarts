@@ -1,6 +1,6 @@
 package xyz.telecter.controllablecarts;
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +20,7 @@ public class ModItems {
     public static void initialize() {
         List<ResourceKey<CreativeModeTab>> tabs = Arrays.asList(CreativeModeTabs.REDSTONE_BLOCKS, CreativeModeTabs.TOOLS_AND_UTILITIES);
         for (ResourceKey<CreativeModeTab> tab : tabs) {
-            ItemGroupEvents.modifyEntriesEvent(tab).register(itemGroup -> itemGroup.accept(CONTROLLABLE_MINECART));
+            CreativeModeTabEvents.modifyOutputEvent(tab).register(itemGroup -> itemGroup.accept(CONTROLLABLE_MINECART));
         }
     }
 

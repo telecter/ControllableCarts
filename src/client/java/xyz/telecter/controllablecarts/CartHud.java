@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class CartHud {
         HudElementRegistry.attachElementAfter(VanillaHudElements.MISC_OVERLAYS, Identifier.fromNamespaceAndPath(ControllableCarts.MOD_ID, "minecart_hud"), CartHud::render);
     }
 
-    public static void render(GuiGraphics context, DeltaTracker tickCounter) {
+    public static void render(GuiGraphicsExtractor context, DeltaTracker tickCounter) {
         if (client.player == null) {
             return;
         }
@@ -43,9 +43,9 @@ public class CartHud {
             int fuel = Math.round(cart.getFuel());
             Component fuelText = Component.literal(String.valueOf(fuel)).withStyle(fuel > 0 ? ChatFormatting.WHITE : ChatFormatting.RED);
 
-            context.drawString(client.font, speedText, x - width / 2, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
-            context.drawString(client.font, fuelText, x + width / 2 - 20, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
-            context.renderFakeItem(new ItemStack(Items.COAL), x + width / 2 - 40, y + height / 2 - 8);
+            context.text(client.font, speedText, x - width / 2, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
+            context.text(client.font, fuelText, x + width / 2 - 20, y + height / 2 - client.font.lineHeight / 2, 0xFFFFFFFF, true);
+            context.item(new ItemStack(Items.COAL), x + width / 2 - 40, y + height / 2 - 8);
         }
     }
 }

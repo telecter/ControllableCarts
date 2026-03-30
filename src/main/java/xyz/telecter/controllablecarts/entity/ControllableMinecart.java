@@ -74,19 +74,19 @@ public class ControllableMinecart extends Minecart {
 
 
     @Override
-    public @NotNull InteractionResult interact(Player player, InteractionHand interactionHand) {
+    public @NotNull InteractionResult interact(Player player, InteractionHand interactionHand, Vec3 location) {
         ItemStack item = player.getMainHandItem();
         if (item.is(ItemTags.FURNACE_MINECART_FUEL) || item.is(Items.COAL_BLOCK)) {
             int amount = item.is(Items.COAL_BLOCK) ? 9 : 1;
             if (Math.floor(fuel) + amount > MAX_FUEL) {
-                player.displayClientMessage(Component.translatable("entity.controllablecarts.controllable_minecart.full").withStyle(ChatFormatting.RED), true);
+                player.sendOverlayMessage(Component.translatable("entity.controllablecarts.controllable_minecart.full").withStyle(ChatFormatting.RED));
                 return InteractionResult.FAIL;
             }
             fuel += amount;
             item.consume(1, player);
             return InteractionResult.SUCCESS;
         }
-        return super.interact(player, interactionHand);
+        return super.interact(player, interactionHand, location);
     }
 
     @Override
