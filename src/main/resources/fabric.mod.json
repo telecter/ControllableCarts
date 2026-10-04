@@ -17,15 +17,15 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "xyz.telecter.controllablecarts.ControllableCarts"
+      "net.telecter.controllablecarts.ControllableCarts"
     ],
     "client": [
-      "xyz.telecter.controllablecarts.ControllableCartsClient"
+      "net.telecter.controllablecarts.ControllableCartsClient"
     ]
   },
   "depends": {
     "fabricloader": ">=0.17.3",
-    "minecraft": "~26.1",
+    "minecraft": ">=26.1 <26.4",
     "java": ">=21",
     "fabric-api": "*"
   }

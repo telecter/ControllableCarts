@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts.entity;
+package net.telecter.controllablecarts.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,9 +23,9 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import xyz.telecter.controllablecarts.ModItems;
-import xyz.telecter.controllablecarts.Utils;
-import xyz.telecter.controllablecarts.packet.MinecartDataPayload;
+import net.telecter.controllablecarts.ModItems;
+import net.telecter.controllablecarts.Utils;
+import net.telecter.controllablecarts.packet.MinecartDataPayload;
 
 public class ControllableMinecart extends Minecart {
 

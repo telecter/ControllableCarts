@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts;
+package net.telecter.controllablecarts;
 
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
@@ -11,7 +11,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import xyz.telecter.controllablecarts.entity.ControllableMinecart;
+import net.telecter.controllablecarts.entity.ControllableMinecart;
 
 public class CartHud {
     private static final Minecraft client = Minecraft.getInstance();

@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts;
+package net.telecter.controllablecarts;
 
 import net.minecraft.world.entity.Entity;
 

@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts.packet;
+package net.telecter.controllablecarts.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

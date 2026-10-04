@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts;
+package net.telecter.controllablecarts;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -8,10 +8,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.telecter.controllablecarts.entity.ControllableMinecart;
-import xyz.telecter.controllablecarts.entity.ModEntityType;
-import xyz.telecter.controllablecarts.packet.MinecartDataPayload;
-import xyz.telecter.controllablecarts.packet.MinecartMovePayload;
+import net.telecter.controllablecarts.entity.ControllableMinecart;
+import net.telecter.controllablecarts.entity.ModEntityType;
+import net.telecter.controllablecarts.packet.MinecartDataPayload;
+import net.telecter.controllablecarts.packet.MinecartMovePayload;
 
 public class ControllableCarts implements ModInitializer {
     public static final String MOD_ID = "controllablecarts";

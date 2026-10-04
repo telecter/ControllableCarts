@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts;
+package net.telecter.controllablecarts;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.MinecartItem;
-import xyz.telecter.controllablecarts.entity.ModEntityType;
+import net.telecter.controllablecarts.entity.ModEntityType;
 
 import java.util.Arrays;
 import java.util.List;

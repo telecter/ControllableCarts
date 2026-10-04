@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts;
+package net.telecter.controllablecarts;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import xyz.telecter.controllablecarts.entity.ControllableMinecart;
-import xyz.telecter.controllablecarts.entity.ModEntityType;
-import xyz.telecter.controllablecarts.packet.MinecartDataPayload;
-import xyz.telecter.controllablecarts.packet.MinecartMovePayload;
+import net.telecter.controllablecarts.entity.ControllableMinecart;
+import net.telecter.controllablecarts.entity.ModEntityType;
+import net.telecter.controllablecarts.packet.MinecartDataPayload;
+import net.telecter.controllablecarts.packet.MinecartMovePayload;
 
 
 public class ControllableCartsClient implements ClientModInitializer {

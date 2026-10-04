@@ -1,4 +1,4 @@
-package xyz.telecter.controllablecarts.entity;
+package net.telecter.controllablecarts.entity;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import xyz.telecter.controllablecarts.ControllableCarts;
+import net.telecter.controllablecarts.ControllableCarts;
 
 public class ModEntityType {
     public static void initialize() {
